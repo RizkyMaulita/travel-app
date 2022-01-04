@@ -19,6 +19,19 @@ export default function LoginPage () {
         toast('Please input password !')
       }
       if (form.email && form.password) {
+        // const response = await API().post('/auth/login', form, {
+        //   headers: {
+        //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+        //   }
+        // })
+        // console.log(response.data)
+        
+        // const id = 1
+        // API().delete(`/user/${id}`)
+        // .then(response => console.log(response.data))
+        
+        // API().patch(`/likes/${id}`, {}, { headers: { 'Content-Type' : 'application/json' }} )
+
         const { data } = await API().post('/auth/login', form)
         if (data?.token) {
           localStorage.setItem('token', data?.token)
@@ -26,6 +39,7 @@ export default function LoginPage () {
         }
       }
     } catch (error) {
+      console.log(error)
       toast(error?.response?.data?.message || 'Internal Server Error')
     }
 

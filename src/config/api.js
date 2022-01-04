@@ -4,7 +4,7 @@ const { REACT_APP_TRAVEL_API_HOST } = process.env
 export const API = () => {
   const token = localStorage.getItem('token') || ''
   const callAPI = axios.create({
-    baseURL: REACT_APP_TRAVEL_API_HOST,
+    baseURL: REACT_APP_TRAVEL_API_HOST, // http://localhost:3001
     headers: {
       'Accept': 'application/json',
       'Authorization': `Bearer ${token}`,
