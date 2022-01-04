@@ -13,10 +13,14 @@ export default function LoginPage () {
   const onLogin = async () => {
     try {
       if (!form.email) {
-        toast('Please input email !')
+        toast('Please input email !', {
+          type: 'error'
+        })
       } 
       if (!form.password) {
-        toast('Please input password !')
+        toast('Please input password !', {
+          type: 'error'
+        })
       }
       if (form.email && form.password) {
         // const response = await API().post('/auth/login', form, {
@@ -40,7 +44,9 @@ export default function LoginPage () {
       }
     } catch (error) {
       console.log(error)
-      toast(error?.response?.data?.message || 'Internal Server Error')
+      toast(error?.response?.data?.message || 'Internal Server Error', {
+        type: 'error'
+      })
     }
 
   }

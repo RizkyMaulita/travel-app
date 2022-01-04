@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Cloudinary } from "../config/thirdParty"
-const { REACT_APP_CLOUD_NAME_CLOUDINARY } = process.env
-const { REACT_APP_UPLOAD_PRESET_CLOUDINARY } = process.env
+import { ToastContainer, toast } from 'react-toastify'
+const { REACT_APP_CLOUD_NAME_CLOUDINARY, REACT_APP_UPLOAD_PRESET_CLOUDINARY } = process.env
 
 export default function ProfilePage () {
   const [ form, setForm ] = useState(null)
@@ -15,15 +15,23 @@ export default function ProfilePage () {
 
   const onHandleUpload = async () => {
     try {
-      const payload = new FormData()
-      payload.append('file', form)
-      payload.append('upload_preset', REACT_APP_UPLOAD_PRESET_CLOUDINARY)
-      payload.append('cloud_name', REACT_APP_CLOUD_NAME_CLOUDINARY)
-
-      const { data } = await Cloudinary().post('/', payload)
-      console.log(data, '<<< data')
+      if (!form) {
+        toast('Please input file !', {
+          type: 'error'
+        })
+      } else {
+        const payload = new FormData()
+        payload.append('file', form)
+        payload.append('upload_preset', REACT_APP_UPLOAD_PRESET_CLOUDINARY)
+        payload.append('cloud_name', REACT_APP_CLOUD_NAME_CLOUDINARY)
+  
+        const { data } = await Cloudinary().post('/', payload)
+        console.log(data, '<<< data')
+        toast('Successfully upload image', { type: 'success' } )
+      }
     } catch (error) {
       console.log(error, '<<< error')
+      toast(error?.response?.data?.error?.message || error?.response?.message || 'Internal Server Error', { type: 'error'} )
     }
   }
 
@@ -37,6 +45,7 @@ export default function ProfilePage () {
           <button className="btn btn-outline-secondary" type="button" onClick={() => onHandleUpload()}>Upload</button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }
