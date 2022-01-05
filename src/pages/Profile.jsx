@@ -15,23 +15,36 @@ export default function ProfilePage () {
 
   const onHandleUpload = async () => {
     try {
-      if (!form) {
-        toast('Please input file !', {
-          type: 'error'
-        })
-      } else {
+      // if (!form) {
+      //   toast('Please input file !', {
+      //     type: 'error'
+      //   })
+      // } else {
         const payload = new FormData()
         payload.append('file', form)
         payload.append('upload_preset', REACT_APP_UPLOAD_PRESET_CLOUDINARY)
         payload.append('cloud_name', REACT_APP_CLOUD_NAME_CLOUDINARY)
   
-        const { data } = await Cloudinary().post('/', payload)
+        // const { data } = await Cloudinary().post('/', payload)
+        // console.log(data, '<<< data')
+        // toast('Successfully upload image', { type: 'success' } )
+        const { data } = await toast.promise(
+          Cloudinary().post('/', payload),
+          {
+            pending: `Uploading photo in progress !`,
+            success: `Success uploading photo !`,
+            error: `Failed to uploading foto`
+          }, 
+          {                           // parameter ketiga ini bersifat optional, jika ingin mengganti default toast
+            position: 'top-center',
+            theme: "dark"
+          }
+        )
         console.log(data, '<<< data')
-        toast('Successfully upload image', { type: 'success' } )
-      }
+      // }
     } catch (error) {
       console.log(error, '<<< error')
-      toast(error?.response?.data?.error?.message || error?.response?.message || 'Internal Server Error', { type: 'error'} )
+      // toast(error?.response?.data?.error?.message || error?.response?.message || 'Internal Server Error', { type: 'error'} )
     }
   }
 
