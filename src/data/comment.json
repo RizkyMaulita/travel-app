@@ -1,0 +1,49 @@
+[
+  {
+    "id": 1,
+    "context": "aku tidak setuju",
+    "createdAt": "2021-12-23T18:12:41.000Z",
+    "updatedAt": "2021-12-23T18:12:41.000Z",
+    "rep_comments": [],
+    "user_id": 7,
+    "issue_id": 2,
+    "User": {
+      "user_id": 7,
+      "username": "Devi",
+      "imageUrl": "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
+    },
+    "likes": []
+  },
+  {
+    "id": 2,
+    "context": "Iya aku setuju",
+    "createdAt": "2021-12-23T18:13:55.000Z",
+    "updatedAt": "2021-12-23T18:16:09.000Z",
+    "rep_comments": [
+      {
+        "uuid": "7cfdcf7f-99d9-493a-acab-396b2e353408",
+        "context": "Menurutku itu tidak seperti itu",
+        "author": {
+          "user_id": 7,
+          "username": "Devi",
+          "imageUrl": "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
+        },
+        "depends_on": {
+          "author": 1,
+          "uuid": ""
+        },
+        "createdAt": "2022-01-05T20:13:55.000Z",
+        "updatedAt": "2022-01-05T20:16:09.000Z",
+        "likes": []
+      }
+    ],
+    "user_id": 8,
+    "issue_id": 2,
+    "User": {
+      "user_id": 8,
+      "username": "Tsania",
+      "imageUrl": "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
+    },
+    "likes": []
+  }
+]

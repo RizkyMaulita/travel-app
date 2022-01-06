@@ -15,11 +15,11 @@ export default function ProfilePage () {
 
   const onHandleUpload = async () => {
     try {
-      // if (!form) {
-      //   toast('Please input file !', {
-      //     type: 'error'
-      //   })
-      // } else {
+      if (!form) {
+        toast('Please input file !', {
+          type: 'error'
+        })
+      } else {
         const payload = new FormData()
         payload.append('file', form)
         payload.append('upload_preset', REACT_APP_UPLOAD_PRESET_CLOUDINARY)
@@ -41,7 +41,7 @@ export default function ProfilePage () {
           }
         )
         console.log(data, '<<< data')
-      // }
+      }
     } catch (error) {
       console.log(error, '<<< error')
       // toast(error?.response?.data?.error?.message || error?.response?.message || 'Internal Server Error', { type: 'error'} )
