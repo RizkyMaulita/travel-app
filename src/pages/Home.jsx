@@ -2,8 +2,29 @@ import React, { useState } from "react"
 import dummyComment from '../data/comment.json'
 import calculateDuration from '../utils/duration'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import { faThumbsUp as iconLike } from "@fortawesome/free-solid-svg-icons"
+import { faThumbsUp as iconLike } from "@fortawesome/free-solid-svg-icons"
 import { faComment, faThumbsUp as iconDislike } from '@fortawesome/free-regular-svg-icons'
+
+const dataLogin = { // dapat dari stateManagement atau hasil hit endpoint /profile
+  user_id: 2,
+  username: "john",
+  imageUrl: "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
+}
+
+/*
+  misal, kamu ada stateManagement dari redux,
+  di store kan ada reducer, user / profile
+  
+  ketika page tersebut di render, kan ada navbar, yang dimana navbar ini membutuhkan imageurl dan username
+  maka data tersebut kamu simpan ke dalam store reducer user/profile.
+
+  so, tinggal ambil aja datalogin dari store reducer tersebut. jadi di comment ini, tidak perlu hit endpoint /user/detail
+
+  seharusnya ada endpoint get /profile => yang dimana akan return data user yang login tersebut (user_id, username, imageUrl).
+
+  endpoint get /profile => return data user yang lagi login. user_id nya dapat dari decoded token
+  endpoint put /profile => edit profile
+ */
 
 export default function HomePage () {
   const [ dataComments, setDataComments ] = useState([ ...dummyComment ])
@@ -17,6 +38,13 @@ export default function HomePage () {
       context: ''
     }
   })
+
+  const checkLike = (arrLikes = []) => {
+    if (arrLikes?.find(data => data?.user_id === dataLogin?.user_id)) {
+      return true
+    }
+    return false
+  }
 
   const handleComment = () => {
     console.log(form, '<<< comment')
@@ -59,14 +87,14 @@ export default function HomePage () {
         <div className="col-1">
           <img
             className="rounded-circle shadow-1-strong me-3 align-self-center"
-            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
+            src={dataLogin?.imageUrl}
             alt="avatar"
             width="50"
             height="50"
           />
         </div>
         <div className="col-11">
-          {
+          { // jika kita buat sebuah comment baru yg dimana kita ngequote / reply comment yg lain
             positionComment?.depends_on?.username && positionComment?.depends_on?.context
             ? <div className="input-group">
                 <input type="text" className="form-control fs-6 fst-italic" value={`@${positionComment?.depends_on?.username} - ${positionComment?.depends_on?.context}`} disabled style={{ borderRadius: '15px 15px 0 0' }}/>
@@ -122,7 +150,7 @@ export default function HomePage () {
                                   <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1">
                                       {comment?.User?.username}
-                                      <span className="small"> - {calculateDuration(comment?.createdAt)}</span>
+                                      <span className="small"> - {calculateDuration(comment?.updatedAt)}</span>
                                     </p>
                                   </div>
                                   <p className="small mb-1">{comment?.context}</p>
@@ -139,7 +167,7 @@ export default function HomePage () {
                                       <FontAwesomeIcon icon={faComment} />
                                     </div>
                                     <div className="btn p-0">
-                                      <FontAwesomeIcon icon={iconDislike} className="mx-2" />
+                                      <FontAwesomeIcon icon={checkLike(comment?.likes) ? iconLike : iconDislike} className="mx-2" />
                                       {comment?.likes?.length || ''}
                                     </div>
                                   </div>
@@ -163,7 +191,7 @@ export default function HomePage () {
                                               <div className="d-flex justify-content-between align-items-center">
                                                 <p className="mb-1">
                                                   {repComment?.author?.username}
-                                                  <span className="small"> - {calculateDuration(repComment?.createdAt)} </span>
+                                                  <span className="small"> - {calculateDuration(repComment?.updatedAt)} </span>
                                                 </p>
                                               </div>
                                               <p className="small mb-1">{repComment?.context}</p>
@@ -180,7 +208,7 @@ export default function HomePage () {
                                                   })}  />
                                                 </div>
                                                 <div className="btn p-0">
-                                                  <FontAwesomeIcon icon={iconDislike} className="mx-2" />
+                                                  <FontAwesomeIcon icon={checkLike(repComment?.likes) ? iconLike : iconDislike} className="mx-2" />
                                                   { repComment?.likes?.length || '' }
                                                 </div>
                                               </div>
