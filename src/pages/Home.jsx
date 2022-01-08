@@ -26,6 +26,14 @@ const dataLogin = { // dapat dari stateManagement atau hasil hit endpoint /profi
   endpoint put /profile => edit profile
  */
 
+const getDate = (dateStr = '') => {
+  if (!dateStr) return ''
+  const arrDate = dateStr.split('T')
+  console.log(arrDate, '<< arrDate')
+  const date = new Date(new Date(dateStr).getTime() - new Date(dateStr).getTimezoneOffset() * 60000)
+  return `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}`
+}
+
 export default function HomePage () {
   const [ dataComments, setDataComments ] = useState([ ...dummyComment ])
   const [ form, setForm ] = useState('')
@@ -154,6 +162,7 @@ export default function HomePage () {
                                     </p>
                                   </div>
                                   <p className="small mb-1">{comment?.context}</p>
+                                  <p className="small mb-1">{getDate(comment?.createdAt)}</p>
                                   <div className="d-flex justify-content-between">
                                     <div className="btn p-0" onClick={() => setPositionComment({ 
                                       commentID: comment?.id, 
