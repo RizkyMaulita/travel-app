@@ -4,6 +4,7 @@ import calculateDuration from '../utils/duration'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faThumbsUp as iconLike } from "@fortawesome/free-solid-svg-icons"
 import { faComment, faThumbsUp as iconDislike } from '@fortawesome/free-regular-svg-icons'
+import { getDate } from "../utils/date"
 
 const dataLogin = { // dapat dari stateManagement atau hasil hit endpoint /profile
   user_id: 2,
@@ -26,13 +27,7 @@ const dataLogin = { // dapat dari stateManagement atau hasil hit endpoint /profi
   endpoint put /profile => edit profile
  */
 
-const getDate = (dateStr = '') => {
-  if (!dateStr) return ''
-  const arrDate = dateStr.split('T')
-  console.log(arrDate, '<< arrDate')
-  const date = new Date(new Date(dateStr).getTime() - new Date(dateStr).getTimezoneOffset() * 60000)
-  return `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}`
-}
+
 
 export default function HomePage () {
   const [ dataComments, setDataComments ] = useState([ ...dummyComment ])
@@ -162,7 +157,7 @@ export default function HomePage () {
                                     </p>
                                   </div>
                                   <p className="small mb-1">{comment?.context}</p>
-                                  <p className="small mb-1">{getDate(comment?.createdAt)}</p>
+                                  <p className="small mb-1">{getDate(comment?.createdAt, true)}</p>
                                   <div className="d-flex justify-content-between">
                                     <div className="btn p-0" onClick={() => setPositionComment({ 
                                       commentID: comment?.id, 
