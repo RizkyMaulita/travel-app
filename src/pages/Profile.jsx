@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { Cloudinary } from "../config/thirdParty"
 import { ToastContainer, toast } from 'react-toastify'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCamera } from '@fortawesome/free-solid-svg-icons'
 const { REACT_APP_CLOUD_NAME_CLOUDINARY, REACT_APP_UPLOAD_PRESET_CLOUDINARY } = process.env
 
 export default function ProfilePage () {
@@ -50,9 +52,10 @@ export default function ProfilePage () {
 
   return (
     <div className="container my-5">
+      <FontAwesomeIcon icon={faCamera} size="2x" onClick={_ => document.getElementById('input-image').click()} />
       <div className="input-group">
         <div className="custom-file">
-          <input type="file" className="custom-file-input" id="inputGroupFile04" onChange={e => onChangeFile(e)}/>
+          <input type="file" className="custom-file-input" id="input-image" style={{ opacity: 0 }} onChange={e => onChangeFile(e)}/>
         </div>
         <div className="input-group-append">
           <button className="btn btn-outline-secondary" type="button" onClick={() => onHandleUpload()}>Upload</button>
